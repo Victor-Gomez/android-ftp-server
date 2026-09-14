@@ -39,6 +39,7 @@ HOW TO CONNECT:
 
 SUPPORT & PRIVACY:
 Developer: Victor Gomez (victorgomez.studio)
+Contact: contacto@victorgomez.studio
 Privacy Policy: https://victorgomez.studio/privacy
 ```
 

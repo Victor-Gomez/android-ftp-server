@@ -28,3 +28,4 @@ The App contains no third-party advertising SDKs, data brokers, or analytics fra
 If you have any questions about this Privacy Policy or the app, please contact:
 - Website: https://victorgomez.studio
 - Developer: Victor Gomez
+- Email: contacto@victorgomez.studio
