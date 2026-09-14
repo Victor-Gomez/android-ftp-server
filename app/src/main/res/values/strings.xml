@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Android FTP Server</string>
+    <string name="notification_channel_name">FTP Server Status</string>
+    <string name="notification_channel_desc">Shows ongoing status and controls while the FTP server is running</string>
+    <string name="server_running">FTP Server Running</string>
+    <string name="server_stopped">FTP Server Stopped</string>
+    <string name="stop_server">Stop Server</string>
+    <string name="start_server">Start Server</string>
+</resources>

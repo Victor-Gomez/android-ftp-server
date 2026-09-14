@@ -1,0 +1,10 @@
+<resources>
+    <color name="primary_teal">#00897B</color>
+    <color name="primary_dark">#00695C</color>
+    <color name="primary_light">#B2DFDB</color>
+    <color name="accent_mint">#00BFA5</color>
+    <color name="background_light">#F7FAFA</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="background_dark">#121818</color>
+    <color name="surface_dark">#1B2424</color>
+</resources>

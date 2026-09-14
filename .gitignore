@@ -1,0 +1,24 @@
+*.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+build/
+app/build/
+captures/
+.externalNativeBuild
+.cxx
+build_out.txt
+key_out.txt
+gen_key.cmd
+*.class
+scratch/
+
+# Keystores & Signing Secrets (keep private!)
+*.keystore
+*.jks
+keystore.properties
+
+# Build Binaries
+*.apk
+*.aab
