@@ -202,10 +202,12 @@ private fun ServerPowerButton(
 ) {
     val isRunning = state == ServerState.RUNNING
     val isStarting = state == ServerState.STARTING
+    val isStopping = state == ServerState.STOPPING
 
     val buttonColor by animateColorAsState(
         targetValue = when {
             isRunning -> RedError
+            isStopping -> RedError.copy(alpha = 0.7f)
             isStarting -> Color(0xFFFFA000)
             else -> TealPrimary
         },
@@ -244,7 +246,7 @@ private fun ServerPowerButton(
             modifier = Modifier
                 .size(130.dp)
                 .clip(CircleShape)
-                .clickable(onClick = onClick)
+                .clickable(enabled = !isStarting && !isStopping, onClick = onClick)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -252,8 +254,8 @@ private fun ServerPowerButton(
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    imageVector = if (isRunning) Icons.Default.Stop else Icons.Default.PowerSettingsNew,
-                    contentDescription = if (isRunning) "Stop Server" else "Start Server",
+                    imageVector = if (isRunning || isStopping) Icons.Default.Stop else Icons.Default.PowerSettingsNew,
+                    contentDescription = if (isRunning || isStopping) "Stop Server" else "Start Server",
                     tint = Color.White,
                     modifier = Modifier.size(44.dp)
                 )
@@ -261,6 +263,7 @@ private fun ServerPowerButton(
                 Text(
                     text = when {
                         isStarting -> "STARTING…"
+                        isStopping -> "STOPPING…"
                         isRunning -> "STOP"
                         else -> "START"
                     },
@@ -300,6 +303,7 @@ private fun ServerStatusBadge(state: ServerState) {
                 text = when (state) {
                     ServerState.RUNNING -> "SERVER ACTIVE"
                     ServerState.STARTING -> "STARTING…"
+                    ServerState.STOPPING -> "STOPPING…"
                     ServerState.ERROR -> "SERVER ERROR"
                     ServerState.STOPPED -> "SERVER OFFLINE"
                 },

@@ -78,13 +78,14 @@ class FtpServerService : Service() {
     }
 
     fun startServer() {
-        if (_statusFlow.value.state == ServerState.RUNNING) return
+        val currentState = _statusFlow.value.state
+        if (currentState == ServerState.RUNNING || currentState == ServerState.STARTING) return
 
         val config = prefsRepo.loadConfig()
         val netInfo = NetworkUtils.getActiveNetworkInfo(this)
         val ip = netInfo.ipAddress
 
-        _statusFlow.value = ServerStatus(
+        val startingStatus = ServerStatus(
             state = ServerState.STARTING,
             ipAddress = ip,
             networkName = netInfo.name,
@@ -92,8 +93,16 @@ class FtpServerService : Service() {
             httpPort = config.httpPort,
             isHttpEnabled = config.enableHttp
         )
+        _statusFlow.value = startingStatus
 
-        startForeground(NOTIFICATION_ID, buildNotification(_statusFlow.value))
+        val notification = buildNotification(startingStatus)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val type = ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE or
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+            startForeground(NOTIFICATION_ID, notification, type)
+        } else {
+            startForeground(NOTIFICATION_ID, notification)
+        }
 
         serviceScope.launch {
             try {
@@ -124,13 +133,18 @@ class FtpServerService : Service() {
                     state = ServerState.ERROR,
                     errorMessage = e.message ?: "Failed to start server"
                 )
-                stopForeground(STOP_FOREGROUND_REMOVE)
+                dismissNotification()
                 stopSelf()
             }
         }
     }
 
     fun stopServer() {
+        val currentState = _statusFlow.value.state
+        if (currentState == ServerState.STOPPED || currentState == ServerState.STOPPING) return
+
+        _statusFlow.value = _statusFlow.value.copy(state = ServerState.STOPPING)
+
         serviceScope.launch {
             try {
                 ftpManager.stop()
@@ -141,7 +155,7 @@ class FtpServerService : Service() {
                 e.printStackTrace()
             } finally {
                 _statusFlow.value = ServerStatus(state = ServerState.STOPPED)
-                stopForeground(STOP_FOREGROUND_REMOVE)
+                dismissNotification()
                 stopSelf()
             }
         }
@@ -220,11 +234,24 @@ class FtpServerService : Service() {
     }
 
     private fun updateNotification(status: ServerStatus) {
+        if (_statusFlow.value.state == ServerState.RUNNING || _statusFlow.value.state == ServerState.STARTING) {
+            val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.notify(NOTIFICATION_ID, buildNotification(status))
+        }
+    }
+
+    private fun dismissNotification() {
+        try {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        nm.notify(NOTIFICATION_ID, buildNotification(status))
+        nm.cancel(NOTIFICATION_ID)
     }
 
     override fun onDestroy() {
+        dismissNotification()
         stopServer()
         serviceScope.cancel()
         super.onDestroy()

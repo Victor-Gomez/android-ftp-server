@@ -27,6 +27,7 @@ enum class ServerState {
     STOPPED,
     STARTING,
     RUNNING,
+    STOPPING,
     ERROR
 }
 
