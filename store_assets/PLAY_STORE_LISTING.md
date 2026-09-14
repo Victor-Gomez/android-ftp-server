@@ -18,7 +18,8 @@ Turn your Android phone or tablet into a high-speed, secure FTP server and Web F
 
 KEY FEATURES:
 • One-Tap Server: Start and stop the FTP server with a single tap.
-• Web Browser File Manager: Don't have an FTP client? Open any web browser on your PC or Mac and view, upload, download, and manage your device storage directly.
+• FTPS Secure Support: Encrypt control and data channels using FTPS (FTP over TLS/SSL) with self-signed certificate generation.
+• Web Browser File Manager (HTTP/HTTPS): Don't have an FTP client? Open any web browser (Chrome, Safari, Firefox, Edge) on your PC or Mac and view, upload, download, and manage device storage directly over HTTP or encrypted HTTPS.
 • QR Code Quick Connect: Display a QR code on your phone to quickly connect other mobile devices or browsers.
 • High-Speed Local Wi-Fi Transfers: Maximum transfer speeds utilizing your local network bandwidth without internet consumption.
 • Multi-User Accounts & Access Control: Configure individual user accounts with customizable passwords and permission levels (Read-Only or Read & Write).
@@ -33,8 +34,8 @@ HOW TO CONNECT:
 1. Connect your phone and your computer to the same Wi-Fi network.
 2. Open Android FTP Server and tap the start button.
 3. On your computer:
-   - Using FileZilla / WinSCP / Cyberduck: Enter the FTP address shown on your phone (e.g. ftp://192.168.1.xxx:2121) and your user credentials.
-   - Using Chrome / Firefox / Edge / Safari: Simply enter the Web Manager address (e.g. http://192.168.1.xxx:8080) to browse and manage files directly.
+   - Using FileZilla / WinSCP / Cyberduck: Enter the FTP/FTPS address shown on your phone (e.g. ftp://192.168.1.xxx:2121 or ftps://...) and your user credentials.
+   - Using Chrome / Firefox / Edge / Safari: Simply enter the Web Manager address (e.g. http://192.168.1.xxx:8080 or https://...) to browse and manage files directly.
 
 SUPPORT & PRIVACY:
 Developer: Victor Gomez (victorgomez.studio)
@@ -69,7 +70,7 @@ Upload to YouTube as **Unlisted** and paste the link in the declaration field.
 ### C. Data Safety Form
 - Does your app collect or share any user data? **No**
 - Does your app transmit data to external third parties? **No** (Local LAN only)
-- Is data encrypted in transit? **No** (Standard local FTP/HTTP protocol)
+- Is data encrypted in transit? **Yes** (Optional end-to-end TLS/SSL encryption with FTPS and HTTPS)
 
 ---
 
