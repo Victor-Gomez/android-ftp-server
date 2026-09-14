@@ -48,6 +48,10 @@ slf4j-android = { group = "org.slf4j", name = "slf4j-android", version.ref = "sl
 # ZXing for QR Code generation
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
 
+# Bouncy Castle for TLS / SSL Certificate generation
+bouncycastle-bcprov = { group = "org.bouncycastle", name = "bcprov-jdk18on", version = "1.78.1" }
+bouncycastle-bcpkix = { group = "org.bouncycastle", name = "bcpkix-jdk18on", version = "1.78.1" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

@@ -43,7 +43,7 @@ class FtpServerService : Service() {
     private var wifiLock: WifiManager.WifiLock? = null
 
     private lateinit var ftpManager: FtpServerManager
-    private val httpManager = HttpServerManager()
+    private lateinit var httpManager: HttpServerManager
     private val ssdpService = SsdpDiscoveryService()
 
     inner class LocalBinder : Binder() {
@@ -53,7 +53,8 @@ class FtpServerService : Service() {
     override fun onCreate() {
         super.onCreate()
         prefsRepo = PreferencesRepository(this)
-        ftpManager = FtpServerManager { count, transfers, clients ->
+        httpManager = HttpServerManager(this)
+        ftpManager = FtpServerManager(this) { count, transfers, clients ->
             val cur = _statusFlow.value
             val updated = cur.copy(
                 connectedClientsCount = count,
@@ -91,7 +92,9 @@ class FtpServerService : Service() {
             networkName = netInfo.name,
             ftpPort = config.ftpPort,
             httpPort = config.httpPort,
-            isHttpEnabled = config.enableHttp
+            isHttpEnabled = config.enableHttp,
+            isFtpsEnabled = config.enableFtps,
+            isHttpsEnabled = config.enableHttps
         )
         _statusFlow.value = startingStatus
 
@@ -122,7 +125,9 @@ class FtpServerService : Service() {
                     networkName = netInfo.name,
                     ftpPort = config.ftpPort,
                     httpPort = config.httpPort,
-                    isHttpEnabled = config.enableHttp
+                    isHttpEnabled = config.enableHttp,
+                    isFtpsEnabled = config.enableFtps,
+                    isHttpsEnabled = config.enableHttps
                 )
                 _statusFlow.value = runningStatus
                 updateNotification(runningStatus)
@@ -220,7 +225,8 @@ class FtpServerService : Service() {
         )
 
         val ip = status.ipAddress ?: "0.0.0.0"
-        val contentText = "ftp://$ip:${status.ftpPort} | ${status.connectedClientsCount} client(s)"
+        val scheme = if (status.isFtpsEnabled) "ftps" else "ftp"
+        val contentText = "$scheme://$ip:${status.ftpPort} | ${status.connectedClientsCount} client(s)"
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(getString(R.string.server_running))

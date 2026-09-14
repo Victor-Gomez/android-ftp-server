@@ -17,6 +17,7 @@ data class ServerConfig(
     val enableHttp: Boolean = true,
     val httpPort: Int = 8080,
     val enableFtps: Boolean = false,
+    val enableHttps: Boolean = false,
     val autoStartOnWifi: Boolean = false,
     val autoStopOnWifiDisconnect: Boolean = true,
     val startOnBoot: Boolean = false,
@@ -39,6 +40,8 @@ data class ServerStatus(
     val ftpPort: Int = 2121,
     val httpPort: Int = 8080,
     val isHttpEnabled: Boolean = true,
+    val isFtpsEnabled: Boolean = false,
+    val isHttpsEnabled: Boolean = false,
     val connectedClientsCount: Int = 0,
     val activeTransfersCount: Int = 0,
     val connectedClients: List<String> = emptyList()

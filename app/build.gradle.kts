@@ -107,4 +107,8 @@ dependencies {
 
     // ZXing for QR Code generation
     implementation(libs.zxing.core)
+
+    // Bouncy Castle for SSL/TLS KeyStore & Certificate generation
+    implementation(libs.bouncycastle.bcprov)
+    implementation(libs.bouncycastle.bcpkix)
 }

@@ -1,10 +1,12 @@
 package studio.victorgomez.androidftpserver.server
 
+import android.content.Context
 import studio.victorgomez.androidftpserver.model.ServerConfig
 import org.apache.ftpserver.ConnectionConfigFactory
 import org.apache.ftpserver.DataConnectionConfigurationFactory
 import org.apache.ftpserver.FtpServer
 import org.apache.ftpserver.FtpServerFactory
+import org.apache.ftpserver.ssl.SslConfigurationFactory
 import org.apache.ftpserver.ftplet.Authentication
 import org.apache.ftpserver.ftplet.AuthenticationFailedException
 import org.apache.ftpserver.ftplet.Authority
@@ -42,6 +44,7 @@ class FtpServerUser : BaseUser() {
 }
 
 class FtpServerManager(
+    private val context: Context,
     private val onSessionsChanged: (clientCount: Int, activeTransfers: Int, clients: List<String>) -> Unit
 ) {
     private var server: FtpServer? = null
@@ -64,6 +67,24 @@ class FtpServerManager(
                 dataConnFactory.createDataConnectionConfiguration()
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+
+        // Configure SSL / FTPS if enabled
+        if (config.enableFtps) {
+            try {
+                val keyStoreFile = CertificateManager.getOrCreateKeyStoreFile(context)
+                val sslConfigFactory = SslConfigurationFactory().apply {
+                    keystoreFile = keyStoreFile
+                    keystorePassword = CertificateManager.KEYSTORE_PASSWORD
+                    keystoreType = "PKCS12"
+                    keyPassword = CertificateManager.KEYSTORE_PASSWORD
+                    setSslProtocol("TLS")
+                }
+                listenerFactory.sslConfiguration = sslConfigFactory.createSslConfiguration()
+                listenerFactory.isImplicitSsl = false // Explicit FTPS (AUTH TLS) compatible with all FTP clients
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         serverFactory.addListener("default", listenerFactory.createListener())

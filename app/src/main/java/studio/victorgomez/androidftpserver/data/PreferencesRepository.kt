@@ -28,6 +28,7 @@ class PreferencesRepository(context: Context) {
         val enableHttp = prefs.getBoolean(KEY_ENABLE_HTTP, true)
         val httpPort = prefs.getInt(KEY_HTTP_PORT, 8080)
         val enableFtps = prefs.getBoolean(KEY_ENABLE_FTPS, false)
+        val enableHttps = prefs.getBoolean(KEY_ENABLE_HTTPS, false)
         val autoStartOnWifi = prefs.getBoolean(KEY_AUTO_START_WIFI, false)
         val autoStopOnWifiDisconnect = prefs.getBoolean(KEY_AUTO_STOP_WIFI, true)
         val startOnBoot = prefs.getBoolean(KEY_START_ON_BOOT, false)
@@ -43,6 +44,7 @@ class PreferencesRepository(context: Context) {
             enableHttp = enableHttp,
             httpPort = httpPort,
             enableFtps = enableFtps,
+            enableHttps = enableHttps,
             autoStartOnWifi = autoStartOnWifi,
             autoStopOnWifiDisconnect = autoStopOnWifiDisconnect,
             startOnBoot = startOnBoot,
@@ -60,6 +62,7 @@ class PreferencesRepository(context: Context) {
             putBoolean(KEY_ENABLE_HTTP, config.enableHttp)
             putInt(KEY_HTTP_PORT, config.httpPort)
             putBoolean(KEY_ENABLE_FTPS, config.enableFtps)
+            putBoolean(KEY_ENABLE_HTTPS, config.enableHttps)
             putBoolean(KEY_AUTO_START_WIFI, config.autoStartOnWifi)
             putBoolean(KEY_AUTO_STOP_WIFI, config.autoStopOnWifiDisconnect)
             putBoolean(KEY_START_ON_BOOT, config.startOnBoot)
@@ -110,6 +113,7 @@ class PreferencesRepository(context: Context) {
         private const val KEY_ENABLE_HTTP = "key_enable_http"
         private const val KEY_HTTP_PORT = "key_http_port"
         private const val KEY_ENABLE_FTPS = "key_enable_ftps"
+        private const val KEY_ENABLE_HTTPS = "key_enable_https"
         private const val KEY_AUTO_START_WIFI = "key_auto_start_wifi"
         private const val KEY_AUTO_STOP_WIFI = "key_auto_stop_wifi"
         private const val KEY_START_ON_BOOT = "key_start_on_boot"

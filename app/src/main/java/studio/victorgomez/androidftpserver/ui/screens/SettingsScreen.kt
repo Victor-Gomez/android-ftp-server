@@ -165,6 +165,15 @@ fun SettingsScreen(
                     HorizontalDivider(modifier = Modifier.padding(vertical = 14.dp))
 
                     SettingSwitchRow(
+                        title = "Enable FTPS (TLS / SSL)",
+                        subtitle = "Encrypt FTP control and data connections with TLS",
+                        checked = config.enableFtps,
+                        onCheckedChange = { onSaveConfig(config.copy(enableFtps = it)) }
+                    )
+
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 14.dp))
+
+                    SettingSwitchRow(
                         title = "Allow Anonymous Access",
                         subtitle = "Clients can connect without username and password",
                         checked = config.allowAnonymous,
@@ -202,6 +211,17 @@ fun SettingsScreen(
                     )
 
                     if (config.enableHttp) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        HorizontalDivider()
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        SettingSwitchRow(
+                            title = "Enable HTTPS (SSL / TLS)",
+                            subtitle = "Encrypt web transfers with SSL/TLS (Self-signed certificate)",
+                            checked = config.enableHttps,
+                            onCheckedChange = { onSaveConfig(config.copy(enableHttps = it)) }
+                        )
+
                         Spacer(modifier = Modifier.height(14.dp))
                         OutlinedTextField(
                             value = httpPortText,

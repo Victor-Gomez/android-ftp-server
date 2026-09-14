@@ -53,9 +53,15 @@ fun HomeScreen(
     val isStarting = serverStatus.state == ServerState.STARTING
     var showQrDialog by remember { mutableStateOf(false) }
 
+    val isFtps = if (isRunning) serverStatus.isFtpsEnabled else serverConfig.enableFtps
+    val isHttps = if (isRunning) serverStatus.isHttpsEnabled else serverConfig.enableHttps
+
+    val ftpScheme = if (isFtps) "ftps" else "ftp"
+    val httpScheme = if (isHttps) "https" else "http"
+
     val ip = serverStatus.ipAddress ?: networkInfo.ipAddress ?: "0.0.0.0"
-    val ftpUrl = "ftp://$ip:${serverStatus.ftpPort}"
-    val httpUrl = if (serverConfig.enableHttp) "http://$ip:${serverStatus.httpPort}" else null
+    val ftpUrl = "$ftpScheme://$ip:${serverStatus.ftpPort}"
+    val httpUrl = if (serverConfig.enableHttp) "$httpScheme://$ip:${serverStatus.httpPort}" else null
 
     if (showQrDialog) {
         QrCodeDialog(
@@ -97,12 +103,12 @@ fun HomeScreen(
                 Column(modifier = Modifier.fillMaxWidth()) {
                     // FTP Address Card
                     AddressCard(
-                        title = "FTP Server Address",
-                        subtitle = "Connect using FileZilla, Cyberduck, or Windows Explorer",
+                        title = if (isFtps) "FTPS Server Address (TLS/SSL)" else "FTP Server Address",
+                        subtitle = if (isFtps) "Connect securely using FileZilla, Cyberduck, etc." else "Connect using FileZilla, Cyberduck, or Windows Explorer",
                         url = ftpUrl,
                         icon = Icons.Default.CloudSync,
                         accentColor = TealPrimary,
-                        onCopy = { copyToClipboard(context, ftpUrl, "FTP Address Copied") },
+                        onCopy = { copyToClipboard(context, ftpUrl, if (isFtps) "FTPS Address Copied" else "FTP Address Copied") },
                         onQr = { showQrDialog = true }
                     )
 
@@ -111,12 +117,12 @@ fun HomeScreen(
                     // Web Browser Card (if enabled)
                     if (httpUrl != null) {
                         AddressCard(
-                            title = "Web Browser Transfer",
-                            subtitle = "Open in Chrome, Firefox, Safari on any PC or phone",
+                            title = if (isHttps) "Web Browser Transfer (HTTPS)" else "Web Browser Transfer",
+                            subtitle = if (isHttps) "Securely open in Chrome, Firefox, Safari on any device" else "Open in Chrome, Firefox, Safari on any PC or phone",
                             url = httpUrl,
                             icon = Icons.Default.Language,
                             accentColor = MintAccent,
-                            onCopy = { copyToClipboard(context, httpUrl, "Web Address Copied") },
+                            onCopy = { copyToClipboard(context, httpUrl, if (isHttps) "HTTPS Address Copied" else "Web Address Copied") },
                             onQr = { showQrDialog = true },
                             onOpen = {
                                 try {

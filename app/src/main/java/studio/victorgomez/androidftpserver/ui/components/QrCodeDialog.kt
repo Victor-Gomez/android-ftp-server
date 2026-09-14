@@ -68,12 +68,12 @@ fun QrCodeDialog(
                         Tab(
                             selected = selectedTab == 0,
                             onClick = { selectedTab = 0 },
-                            text = { Text("FTP Client", fontWeight = FontWeight.Bold) }
+                            text = { Text(if (ftpUrl.startsWith("ftps")) "FTPS Client" else "FTP Client", fontWeight = FontWeight.Bold) }
                         )
                         Tab(
                             selected = selectedTab == 1,
                             onClick = { selectedTab = 1 },
-                            text = { Text("Web Browser", fontWeight = FontWeight.Bold) }
+                            text = { Text(if (httpUrl.startsWith("https")) "Web (HTTPS)" else "Web Browser", fontWeight = FontWeight.Bold) }
                         )
                     }
                 }

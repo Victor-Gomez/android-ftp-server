@@ -1,5 +1,6 @@
 package studio.victorgomez.androidftpserver.server
 
+import android.content.Context
 import android.webkit.MimeTypeMap
 import studio.victorgomez.androidftpserver.model.ServerConfig
 import java.io.*
@@ -13,7 +14,7 @@ import java.util.concurrent.Executors
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-class HttpServerManager {
+class HttpServerManager(private val context: Context) {
     private var serverSocket: ServerSocket? = null
     private val executor = Executors.newCachedThreadPool()
     @Volatile
@@ -22,7 +23,12 @@ class HttpServerManager {
     fun start(config: ServerConfig) {
         stop()
         isRunning = true
-        val socket = ServerSocket(config.httpPort)
+        val socket: ServerSocket = if (config.enableHttps) {
+            val sslContext = CertificateManager.getSslContext(context)
+            sslContext.serverSocketFactory.createServerSocket(config.httpPort)
+        } else {
+            ServerSocket(config.httpPort)
+        }
         serverSocket = socket
 
         executor.execute {
