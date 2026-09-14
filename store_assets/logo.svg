@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#192524" />
+      <stop offset="100%" stop-color="#0F1615" />
+    </linearGradient>
+
+    <!-- Wi-Fi Wave Gradient -->
+    <linearGradient id="wifiGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00897B" />
+      <stop offset="50%" stop-color="#00BFA5" />
+      <stop offset="100%" stop-color="#1DE9B6" />
+    </linearGradient>
+
+    <!-- Upload (Left) Arrow Gradient -->
+    <linearGradient id="upGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#00897B" />
+      <stop offset="100%" stop-color="#26C6DA" />
+    </linearGradient>
+
+    <!-- Download (Right) Arrow Gradient -->
+    <linearGradient id="downGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00E676" />
+      <stop offset="100%" stop-color="#00BFA5" />
+    </linearGradient>
+
+    <!-- Subtle Glow Effect -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#00BFA5" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Base Canvas -->
+  <rect x="24" y="24" width="464" height="464" rx="104" ry="104" fill="url(#bgGrad)" stroke="#223331" stroke-width="4" />
+
+  <!-- Wi-Fi Waves -->
+  <!-- Wave 1 (Outer) -->
+  <path d="M 126 150 A 165 165 0 0 1 386 150" fill="none" stroke="url(#wifiGrad)" stroke-width="18" stroke-linecap="round" filter="url(#glow)" />
+  <!-- Wave 2 (Middle) -->
+  <path d="M 166 195 A 110 110 0 0 1 346 195" fill="none" stroke="url(#wifiGrad)" stroke-width="18" stroke-linecap="round" filter="url(#glow)" />
+  <!-- Wave 3 (Inner Dot/Arc) -->
+  <path d="M 216 240 A 50 50 0 0 1 296 240" fill="none" stroke="url(#wifiGrad)" stroke-width="16" stroke-linecap="round" filter="url(#glow)" />
+
+  <!-- Transfer Arrows -->
+  <!-- Upload Arrow (Left, Pointing Up) -->
+  <g filter="url(#glow)">
+    <line x1="205" y1="360" x2="205" y2="278" stroke="url(#upGrad)" stroke-width="16" stroke-linecap="round" />
+    <path d="M 178 304 L 205 274 L 232 304" fill="none" stroke="url(#upGrad)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Download Arrow (Right, Pointing Down) -->
+  <g filter="url(#glow)">
+    <line x1="307" y1="278" x2="307" y2="360" stroke="url(#downGrad)" stroke-width="16" stroke-linecap="round" />
+    <path d="M 280 334 L 307 364 L 334 334" fill="none" stroke="url(#downGrad)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Server Base Plate / Storage Chassis -->
+  <g filter="url(#glow)">
+    <!-- Chassis Body -->
+    <rect x="130" y="396" width="252" height="52" rx="16" fill="#131D1C" stroke="#253937" stroke-width="4" />
+    <!-- Drive Slot Activity Bar -->
+    <line x1="162" y1="422" x2="288" y2="422" stroke="#334E4B" stroke-width="6" stroke-linecap="round" />
+    <!-- Network & Storage Activity LEDs -->
+    <circle cx="328" cy="422" r="6" fill="#00E676" />
+    <circle cx="352" cy="422" r="6" fill="#00BFA5" />
+  </g>
+</svg>
