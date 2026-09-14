@@ -78,5 +78,8 @@ Upload to YouTube as **Unlisted** and paste the link in the declaration field.
 - [x] Release App Bundle: `app-release.aab` (15.2 MB)
 - [x] App Icon: `store_assets/play_store_icon_512.png` (512x512 PNG)
 - [x] Feature Graphic: `store_assets/play_store_feature_graphic_1024x500.png` (1024x500 PNG)
-- [x] Screenshots: `store_assets/screenshot_1_home.png` and `screenshot_2_settings.png` (1080x2400)
+- [x] Screenshots:
+  - `store_assets/screenshot_1_home.png` (Home Screen with Server Running)
+  - `store_assets/screenshot_2_settings_network.png` (Automation & Network / Port Settings)
+  - `store_assets/screenshot_3_settings_storage_users.png` (Storage Directory & User Management)
 - [x] Privacy Policy: `store_assets/privacy.html` (or `PRIVACY_POLICY.md`)
